@@ -1,0 +1,13 @@
+sudo: required
+services:
+  - docker  # make sure travis CI understands that we need the docker CLI pre installed => Travis CI will auto install a copy of docker into our running container
+
+before_install:  # this will have a series of different commands get executed before tests are ran (some series of steps/setups that need to occur b4 we start deploy our project or run our tests)
+  - docker build -t iouoi/prun-docker-react -f Dockerfile.dev .  # we want to build docker image b4 test. Force to use 'Dockerfile.dev' file
+
+script:  # also a series of commands b4 test is executed
+# default 'npm run test' stops at the command options and kinda hangs there, and never exits
+# so to make sure the test suit auto exits when the first run is completed, add some additional command ('-- --coverage')
+# Travis cares about the "status code" that is returned from this command
+  - docker run iouoi/prun-docker-react npm run test -- --coverage
+
