@@ -8,6 +8,8 @@ RUN npm run build
 
 FROM nginx    
 # (you can think of as) FROM statement terminates the previous block
+EXPOSE 80 
+# 'EXPOSE': this does nothing automatically normally, but AWS elasticbean will look for this instruction, and map directly automatially
 COPY --from=builder /app/build /usr/share/nginx/html
 
 
